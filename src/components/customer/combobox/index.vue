@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown">
     <div class="dropbtn">
-      <div class="dropbtn-text">{{ title.customerGroupName }}</div>
+      <div class="dropbtn-text">{{ customerGroupSelected.customerGroupName }}</div>
       <div class="dropbtn-icon" @click="isClick = !isClick"></div>
     </div>
     <div class="drop-content" v-show="isClick">
@@ -9,7 +9,7 @@
         class="item"
         v-for="(item, index) in customerGroup"
         :key="index"
-        @click="GetCustomerGroup(item.id, item.customerGroupName)"
+        @click="GetCustomerGroup(item.customerGroupId, item.customerGroupName)"
       >
         <div class="content-icon-default"></div>
         <div class="cbb-content-text">{{ item.customerGroupName }}</div>
@@ -24,31 +24,30 @@ export default {
     return {
       customerGroup: null,
       isHover: false,
-      isClick: false
-      // title: {
-      //   customerGroupId: '',
-      //   customerGroupName: ''
-      // }
+      isClick: false,
+      customerGroupSelected: {
+        customerGroupId: '',
+        customerGroupName: ''
+      }
     }
   },
   methods: {
     GetCustomerGroup (id, name) {
-      this.title.customerGroupName = name
-      this.$emit('GetCustomerGroup', this.title.customerGroupId)
+      this.customerGroupSelected.customerGroupName = name
+      this.customerGroupSelected.customerGroupId = id
+      this.$emit('GetCustomerGroup', id, name)
       this.isClick = false
     }
   },
   mounted () {
     this.axios('CustomerGroups?pageIndex=1&pageSize=100').then(response => {
       this.customerGroup = response.data.data
-      this.title.customerGroupId = response.data.data[0].id
-      this.title.customerGroupName = response.data.data[0].customerGroupName
+      this.customerGroupSelected.customerGroupId = response.data.data[0].customerGroupId
+      this.customerGroupSelected.customerGroupName = response.data.data[0].customerGroupName
     })
   },
   props: {
-    title: {
-      typeof: Object
-    }
+
   }
 }
 </script>

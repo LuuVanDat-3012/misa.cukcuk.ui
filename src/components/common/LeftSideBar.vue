@@ -1,38 +1,83 @@
 <template>
-  <div class="body-left">
-    <div class="sidebar">
+  <div class="body-left" :class="{ zoomOut: isZoom }">
+    <div class="sidebar" :class="{ zoomOutSiderBar: isZoom }">
       <div class="box-logo">
-        <div class="toggle"></div>
-        <div class="logo"></div>
+        <div class="toggle" @click="ZoomOut"></div>
+        <div class="logo" v-if="isActived"></div>
       </div>
     </div>
 
     <div class="menu">
       <div class="menu-item">
         <div class="icon overview"></div>
-        <div class="menu-item-text">Tổng quan</div>
+        <transition
+          name="custom-classes-transition"
+          enter-active-class="animated tada"
+          leave-active-class="animated bounceOutRight"
+        >
+          <div class="menu-item-text" v-if="isActived">Tổng quan</div>
+        </transition>
       </div>
       <div class="menu-item">
         <div class="icon report"></div>
-        <div class="menu-item-text">Báo cáo</div>
+        <transition
+          name="custom-classes-transition"
+          enter-active-class="animated tada"
+          leave-active-class="animated bounceOutRight"
+        >
+          <div class="menu-item-text" v-if="isActived">Báo cáo</div>
+        </transition>
       </div>
       <div class="menu-item">
         <div class="icon buy"></div>
-        <div class="menu-item-text">Mua hàng</div>
+        <transition
+          name="custom-classes-transition"
+          enter-active-class="animated tada"
+          leave-active-class="animated bounceOutRight"
+        >
+          <div class="menu-item-text" v-if="isActived">Mua hàng</div>
+        </transition>
       </div>
       <div class="menu-item">
         <div class="icon list-employee"></div>
-        <div class="menu-item-text">Danh mục nhân viên</div>
+        <transition
+          name="custom-classes-transition"
+          enter-active-class="animated tada"
+          leave-active-class="animated bounceOutRight"
+        >
+          <div class="menu-item-text" v-if="isActived">Danh mục nhân viên</div>
+        </transition>
       </div>
       <div class="menu-item">
         <div class="icon setting"></div>
-        <div class="menu-item-text">Thiết lập hệ thống</div>
+        <transition
+          name="custom-classes-transition"
+          enter-active-class="animated tada"
+          leave-active-class="animated bounceOutRight"
+        >
+          <div class="menu-item-text" v-if="isActived">Thiết lập hệ thống</div>
+        </transition>
       </div>
     </div>
   </div>
 </template>
 <script>
-export default {}
+export default {
+  name: 'LeftSideBar',
+  methods: {
+    ZoomOut () {
+      this.isActived = !this.isActived
+      this.isZoom = !this.isZoom
+      this.$emit('Zoom', this.isZoom)
+    }
+  },
+  data () {
+    return {
+      isActived: true,
+      isZoom: false
+    }
+  }
+}
 </script>
 <style>
 .body-left {
@@ -42,6 +87,9 @@ export default {}
   display: flex;
   flex-direction: column;
   border-right: 1px solid #d2d2d2;
+}
+.menu-item-text {
+  min-width: 150px;
 }
 
 .body-left .sidebar {
@@ -104,7 +152,11 @@ export default {}
   background-size: contain;
   background-position: center;
 }
-
+.icon {
+  width: 50px;
+  height: 100%;
+  box-sizing: border-box;
+}
 .body-left .menu .menu-item .icon.overview {
   background-image: url("../../assets/icon/dashboard.png");
 }
@@ -131,5 +183,12 @@ export default {}
   background-color: #ccc;
   z-index: 9;
   opacity: 0.6;
+}
+
+.zoomOut {
+  width: 50px;
+}
+.zoomOutSiderBar {
+  width: 41px !important;
 }
 </style>

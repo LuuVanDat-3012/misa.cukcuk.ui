@@ -20,17 +20,17 @@
             <div class="box-input-up">
               <div class="input-code input-common">
                 <div class="input-title">
-                  Mã nhân viên <b style="color: red">(*)</b>
+                  Mã khách hàng <b style="color: red">(*)</b>
                 </div>
                 <div class="input-box">
                   <input
                     type="text"
-                    ref="search"
+                    ref="autofocus"
                     class="imposition"
                     v-model="infoCustomer.customerCode"
                     :class="{ warning: isWarningCode }"
                     @keyup="isWarningCode = false"
-                    placeholder="Mã nhân viên"
+                    placeholder=" Mã khách hàng "
                   />
                 </div>
               </div>
@@ -69,7 +69,6 @@
                 <div class="input-box">
                   <Combobox
                     @GetCustomerGroup="GetCustomerGroup"
-                    :title="this.title"
                     ref="combobox"
                   />
                 </div>
@@ -142,6 +141,7 @@
                   name="customerEmail"
                   placeholder="example@gmail.com"
                   v-model="infoCustomer.email"
+                  @keyup="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im"
                 />
               </div>
             </div>
@@ -207,10 +207,10 @@
         </div>
         <!-- FOOTER -->
         <div class="dialog-footer">
-          <div class="btn-cancel">
+          <div class="btn-cancel" @keyup.enter="CloseDialog">
             <button @click="CloseDialog">HUỶ</button>
           </div>
-          <div class="btn-save">
+          <div class="btn-save" @keyup.enter="SaveCustomer" >
             <button @click="SaveCustomer">{{ StatusMethod }}</button>
           </div>
         </div>
@@ -231,7 +231,7 @@ export default {
   data () {
     return {
       infoCustomer: {
-        id: '2924c34d-68f1-1d0a-c9c7-6c0aeb6ec302',
+        customerId: '2924c34d-68f1-1d0a-c9c7-6c0aeb6ec302',
         customerCode: '',
         fullname: '',
         gender: 1,
@@ -252,7 +252,7 @@ export default {
       isWarningCode: false,
       isWarningPhone: false,
       tmp: {
-        id: '2924c34d-68f1-1d0a-c9c7-6c0aeb6ec302',
+        customerId: '2924c34d-68f1-1d0a-c9c7-6c0aeb6ec302',
         customerCode: '',
         fullname: '',
         gender: 1,
@@ -268,10 +268,6 @@ export default {
         status: '1',
         editMode: 0
       },
-      title: {
-        customerGroupId: '',
-        customerGroupName: ''
-      },
       isWarningDate: false
     }
   },
@@ -282,33 +278,23 @@ export default {
   },
 
   methods: {
-    customFormatter (val) {
-      return moment(val, 'yyyy-MM-DD')
+    CustomFormatter (val) {
+      return moment(val, 'YYYY-MM-DD')
     },
     ShowCustomerDetail (val) {
-      console.log(val)
       if (val !== '') {
         this.axios.get('Customers/' + val).then((response) => {
           if (response.data.data != null) {
             this.infoCustomer = response.data.data[0]
-            this.title.customerGroupId = response.data.data[0].customerGroupId
-            this.title.customerGroupName =
-              response.data.data[0].customerGroupName
+            this.$refs.combobox.customerGroupSelected.customerGroupId = response.data.data[0].customerGroupId
+            this.$refs.combobox.customerGroupSelected.customerGroupName = response.data.data[0].customerGroupName
           }
         })
       }
     },
-    CloseDialog () {
-      this.isWarningName = false
-      this.isWarningCode = false
-      this.isWarningPhone = false
-      this.infoCustomer = this.tmp
-      this.$refs.combobox.isClick = false
-      this.$emit('CloseDialog')
-    },
     FocusInput () {
       setTimeout(() => {
-        this.$refs.search.focus()
+        this.$refs.autofocus.focus()
       }, 10)
     },
 
@@ -331,12 +317,12 @@ export default {
         this.isWarningPhone = true
         return false
       }
-      var minDate = moment(2001, 1, 1)
-      var maxDate = moment(2020, 1, 1)
-      if (this.infoCustomer.birthday > maxDate || this.infoCustomer.birthday < minDate) {
-        this.isWarningDate = true
-        return false
-      }
+      // var minDate = moment(2001, 1, 1)
+      // var maxDate = moment(2020, 1, 1)
+      // if (this.infoCustomer.birthday > maxDate || this.infoCustomer.birthday < minDate) {
+      //   this.isWarningDate = true
+      //   return false
+      // }
       if (this.ValidateData(this.infoCustomer.phone) === false) {
         this.isWarningPhone = true
         return false
@@ -344,6 +330,8 @@ export default {
       return true
     },
     SaveCustomer () {
+      // this.infoCustomer.birthday = this.CustomFormatter(this.infoCustomer.birthday)
+      // console.log(this.infoCustomer.birthday)
       if (this.ValidateCustomer()) {
         var listCustomer = []
         // nếu method là post sẽ thêm mới khách hàng
@@ -353,7 +341,6 @@ export default {
         if (this.statusMethod === 'PUT') {
           this.infoCustomer.editMode = 2
         }
-        console.log(this.infoCustomer)
         listCustomer.push(this.infoCustomer)
         this.axios
           .post('Customers', listCustomer)
@@ -364,6 +351,10 @@ export default {
               this.$emit('ReloadData')
             } else {
               this.$vToastify.error(response.data.message)
+              const listFieldNotValid = response.data.fieldNotValids
+              listFieldNotValid.forEach(element => {
+                this.$vToastify.error(element.msg)
+              })
             }
           })
           .catch((exp) => {
@@ -371,15 +362,27 @@ export default {
           })
       }
     },
-    GetCustomerGroup (val) {
-      this.infoCustomer.customerGroupId = val
+    GetCustomerGroup (id, name) {
+      this.infoCustomer.customerGroupId = id
+      this.infoCustomer.customerGroupName = name
+    },
+    CloseDialog () {
+      this.isWarningName = false
+      this.isWarningCode = false
+      this.isWarningPhone = false
+      this.infoCustomer = this.tmp
+      this.$refs.combobox.isClick = false
+      this.$emit('CloseDialog')
+    },
+    ValidateEmail (email) {
+      var regex = '/^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$/im'
+      var result = email.match(regex)
+      console.log(email)
+      return result
     }
   },
   mounted () {
     this.FocusInput()
-    this.axios('CustomerGroups').then((response) => {
-      this.infoCustomer = response.data.data
-    })
   },
   computed: {
     StatusMethod () {

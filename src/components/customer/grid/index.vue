@@ -1,53 +1,219 @@
 <template>
   <div class="grid">
-    <table>
-      <thead class="titleRow">
-        <tr>
-          <th>#</th>
-          <th>Mã khách hàng</th>
-          <th>Họ và tên</th>
-          <th>Giới tính</th>
-          <th>Ngày sinh</th>
-          <th>Số diện thoại</th>
-          <th>Email</th>
-          <th>Nhóm khách hàng</th>
-          <th>Mã thẻ thành viên</th>
-          <th>Mã số thuế</th>
-          <th>Địa chỉ</th>
-          <th>Công ty</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(customer, index) in listCustomer"
-          :key="index"
-          @dblclick="ShowCustomerDetail(customer.customerId)"
-          class="contentRow"
-        >
-          <td>
-            <input type="checkbox" :value="customer.id" :id="customer.customerId" class="checkboxRow" v-model="listIdDeleted" />
-          </td>
-          <td>{{ customer.customerCode }}</td>
-          <td>{{ customer.fullname }}</td>
-          <td>
-            {{ customer.gender | formatGender }}
-          </td>
-          <td>
-            {{ customer.birthday | formatDate }}
-          </td>
-          <td>{{ customer.phone }}</td>
-          <td>{{ customer.email }}</td>
-          <td>{{ customer.customerGroupName }}</td>
-          <td>
-            {{ customer.memberCardCode }}
-          </td>
-          <td>{{ customer.taxCode }}</td>
-          <td>{{ customer.address }}</td>
-          <td>{{ customer.company }}</td>
-        </tr>
-      </tbody>
-    </table>
-     <div class="loading" v-if="isLoading">
+    <div class="grid-view">
+      <div class="grid-model-control">
+        <div class="ms-grid-viewer table-scrol">
+          <table class="ms-table-viewer">
+            <thead class="ms-thead-viewer">
+              <tr class="ms-tr-viewer">
+                <th class="ms-th-viewer ms-muli-checkall">
+                  <input type="checkbox" class="ms-input-checkall" />
+                </th>
+                <div class="dis-contents ms-tbody-viewer">
+                  <!-- Mã khách hàng -->
+                  <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                        Mã khách hàng
+                      </span>
+                    </div>
+                  </th>
+                  <!-- Tên khách hang -->
+                  <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                        Tên khách hàng
+                      </span>
+                    </div>
+                  </th>
+                  <!-- Giới tính -->
+                  <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                        Giới tính
+                      </span>
+                    </div>
+                  </th>
+                  <!-- Ngày sinh -->
+                  <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                        Ngày sinh
+                      </span>
+                    </div>
+                  </th>
+                  <!-- Số điện thoại -->
+                  <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                        Số điện thoại
+                      </span>
+                    </div>
+                  </th>
+                  <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                        Email
+                      </span>
+                    </div>
+                  </th>
+                  <!-- Nhóm khách hàng -->
+                  <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                        Nhóm khách hàng
+                      </span>
+                    </div>
+                  </th>
+                  <!-- Mã thẻ thành viên -->
+                   <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                        Mã thẻ thành viên
+                      </span>
+                    </div>
+                  </th>
+                  <!-- Mã số thuế -->
+                   <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                       Mã số thuế
+                      </span>
+                    </div>
+                  </th>
+                  <!-- Địa chỉ công ty -->
+                   <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                      Địa chỉ
+                      </span>
+                    </div>
+                  </th>
+                   <th class="ms-th-viewer dynamic-col header-col">
+                    <div class="col-draggable">
+                      <span class="ms-head-title justify-left flex">
+                      Công ty
+                      </span>
+                    </div>
+                  </th>
+                </div>
+              </tr>
+            </thead>
+
+            <!-- Nội dung -->
+            <tbody>
+              <tr class="ms-tr-viewer revenue-status-undifined row-selected" v-for="(customer, index) in listCustomer" :key="index" @dblclick="ShowCustomerDetail(customer.customerId)">
+                  <td class="ms-td-viewer ms-td-multi">
+                    <label for="" class="ms-component center con-ms-checkbox">
+                      <input type="checkbox" class="ms-checkbox--input" :value="customer" :id="customer" v-model="listIdDeleted">
+                    </label>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.customerCode}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.fullname}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.gender | formatGender}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.birthday | formatDate}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.phone}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.email}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.customerGroupName}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.memberCardCode}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.taxCode}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.address}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="ms-td-viewer text-left">
+                    <span>
+                      <span>
+                        <span>
+                              {{customer.company}}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="loading" v-if="isLoading">
       <PulseLoader class="loading-icon"></PulseLoader>
     </div>
   </div>
@@ -68,19 +234,24 @@ export default {
     }
   },
   methods: {
-    ShowCustomerDetail (val) {
-      this.$emit('ShowCustomerDetail', val)
+    ShowCustomerDetail (customerId) {
+      this.$emit('ShowCustomerDetail', customerId)
     },
     // Danh sách khách hàng theo tên
-    ShowCustomers (val) {
-      this.axios.get('Customers?pageIndex=1&pageSize=50&filter=' + val).then(response => {
-        this.listCustomer = response.data.data
-        this.$emit('GetTotalPage', response.data.totalPage, response.data.page)
-      })
-    },
-    LoadData () {
+    ShowCustomers (pageIndex, pageSize, filter) {
       this.isLoading = true
-      this.axios.get('Customers?pageIndex=1&pageSize=60').then(response => {
+      this.axios
+        .get('Customers?pageIndex=' + pageIndex + '&pageSize=' + pageSize + '&filter=' + filter)
+        .then((response) => {
+          this.listCustomer = response.data.data
+          this.$emit('GetViewData', response.data)
+          this.isLoading = false
+        })
+    },
+    ReloadData () {
+      console.log('Da dc goi')
+      this.isLoading = true
+      this.axios.get('Customers?pageIndex=1&pageSize=30').then((response) => {
         this.listCustomer = response.data.data
         this.isLoading = false
       })
@@ -92,11 +263,11 @@ export default {
     }
   },
   mounted () {
-    this.axios.get('Customers?pageIndex=1&pageSize=50').then(response => {
+    this.axios.get('Customers?pageIndex=1&pageSize=30').then((response) => {
       this.listCustomer = response.data.data
       this.isLoading = false
       // Lấy tổng số trang
-      this.$emit('GetTotalPage', response.data.totalPage)
+      this.$emit('GetViewData', response.data)
     })
   }
 }

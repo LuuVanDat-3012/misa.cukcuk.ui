@@ -4,7 +4,7 @@
       <div class="box-search">
         <div class="box-search-icon"></div>
         <div class="box-search-input">
-          <input type="text" placeholder="Tìm kiếm theo mã, tên..." @keyup.enter="GetCustomerByName" v-model="customerName" />
+          <input type="text" placeholder="Tìm kiếm theo mã, tên..." @keyup.enter="GetFilter" v-model="filter" />
         </div>
       </div>
       <div class="filter-customer-group">
@@ -24,18 +24,17 @@
 export default {
   name: 'FilterCustomer',
   components: {
-
   },
   data () {
     return {
-      customerName: ''
+      filter: ''
     }
   },
+  props: {
+  },
   methods: {
-    GetCustomerByName (val, page) {
-      page = 1
-      val = this.customerName
-      this.$emit('GetCustomerByName', val, page)
+    GetFilter () {
+      this.$emit('GetFilter', this.filter)
     },
     DeleteCustomers () {
       this.$emit('DeleteCustomers')

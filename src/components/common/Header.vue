@@ -1,8 +1,7 @@
 <template>
-  <div class="header">
+  <div class="header" :class="{ enlarge: isEnlarge }">
     <div class="res">
     </div>
-    <drop-down />
     <div class="user">
       <div class="image-user"></div>
       <div class="username">Lưu Văn Đạt</div>
@@ -11,10 +10,15 @@
   </div>
 </template>
 <script>
-import DropDown from './DropDown/DropDown.vue'
+
 export default {
-  components: { DropDown },
-  name: 'Header'
+  components: { },
+  name: 'Header',
+  data () {
+    return {
+      isEnlarge: false
+    }
+  }
 
 }
 </script>
@@ -26,7 +30,6 @@ export default {
   right: 0;
   height: 60px;
   top: 0;
-  border-bottom: 1px solid #d2d2d2;
   display: flex;
   align-items: center;
 }
@@ -66,5 +69,16 @@ export default {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+}
+.enlarge {
+  width: calc(100% - 41px);
+  left: 41px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

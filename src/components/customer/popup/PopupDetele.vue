@@ -40,7 +40,10 @@ export default {
       this.$emit('ReloadData')
     },
     DeleteCustomers () {
-      this.axios.post('Customers/multiple', this.listIdDeleted).then(response => {
+      this.listIdDeleted.forEach(element => {
+        element.editMode = 4
+      })
+      this.axios.post('Customers', this.listIdDeleted).then(response => {
         this.$vToastify.success(response.data.message)
         this.ClosePopup()
         this.ReloadData()

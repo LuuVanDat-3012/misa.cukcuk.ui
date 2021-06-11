@@ -2,16 +2,16 @@
   <div>
     <Header @ShowDialog="ShowDialog" />
     <FilterCustomer
-      @GetCustomerByName="GetCustomerByName"
+      @GetFilter="GetFilter"
       @DeleteCustomers="DeleteCustomers"
       @ReloadData='ReloadData'
       ref=""
     />
-    <Grid @ShowCustomerDetail="ShowCustomerDetail" ref="grid" @GetTotalPage="GetTotalPage"/>
+    <Grid @ShowCustomerDetail="ShowCustomerDetail" ref="grid" @GetViewData="GetViewData"/>
     <CustomerDetail
       v-show="isShowed"
       @CloseDialog="CloseDialog"
-      ref="DetailCustomer"
+      ref="CustomerDetail"
       :statusMethod='this.statusMethod'
        @ReloadData="ReloadData"
     />
@@ -21,7 +21,7 @@
       :listIdDeleted="this.listIdDeleted"
       @ReloadData="ReloadData"
     />
-    <MISANavigate ref="MISANavigate" />
+    <MISANavigate ref="MISANavigate" @GetCustomerPaging='GetCustomerPaging' :totalPage="this.page.totalPage" :pageIndex="this.page.pageIndex" />
   </div>
 </template>
 <script>
@@ -51,7 +51,31 @@ export default {
       // Khởi tạo 1 khách hàng rỗng
       // Danh sách id cần xoá
       listIdDeleted: [],
-      statusMethod: ''
+      statusMethod: '',
+      viewData: '',
+      page: {
+        pageIndex: 1,
+        pageSize: 30,
+        totalPage: 1,
+        filter: ''
+      },
+      infoCustomer: {
+        id: '2924c34d-68f1-1d0a-c9c7-6c0aeb6ec302',
+        customerCode: '',
+        fullname: '',
+        gender: 1,
+        birthday: '2000-12-30T00:00:00',
+        phone: '',
+        email: '',
+        memberCardCode: '',
+        taxCode: '',
+        address: '',
+        company: '',
+        customerGroupName: 'Thường',
+        customerGroupId: '2924c34d-68f1-1d0a-c9c7-6c0aeb6ec302',
+        status: '1',
+        editMode: 0
+      }
     }
   },
   methods: {
@@ -59,20 +83,23 @@ export default {
     ShowDialog () {
       this.isShowed = true
       this.statusMethod = 'POST'
+      this.$refs.CustomerDetail.FocusInput()
     },
     // Hiện thị customer detail - sửa
-    ShowCustomerDetail (val) {
+    ShowCustomerDetail (customerId) {
       this.statusMethod = 'PUT'
       this.isShowed = true
-      this.$refs.DetailCustomer.ShowCustomerDetail(val)
+      this.$refs.CustomerDetail.ShowCustomerDetail(customerId)
+      this.$refs.CustomerDetail.FocusInput()
     },
     // Đóng customer detail
     CloseDialog () {
       this.isShowed = false
     },
     // Gọi hàm hiển thị customer và truyền tên cần tìm
-    GetCustomerByName (val) {
-      this.$refs.grid.ShowCustomers(val)
+    GetFilter (filter) {
+      this.page.filter = filter
+      this.$refs.grid.ShowCustomers(this.page.pageIndex, this.page.pageSize, this.page.filter)
       // Truyền số trangcho navigate
     },
     DeleteCustomers () {
@@ -87,11 +114,16 @@ export default {
     ReloadData () {
       this.listIdDeleted = []
       this.$refs.grid.listIdDeleted = []
-      this.$refs.grid.LoadData()
+      this.$refs.grid.ReloadData()
     },
-    GetTotalPage (totalPage, currentPage) {
-      this.$refs.MISANavigate.totalPage = totalPage
-      this.$refs.MISANavigate.currentPage = currentPage
+    // Hàm lấy ra tổng số trang
+    GetViewData (val) {
+      this.page.totalPage = val.totalPage
+      this.page.pageIndex = val.pageNum
+    },
+    // Hàm nhận ví trị trangm uốn đến
+    GetCustomerPaging (pageIndex) {
+      this.$refs.grid.ShowCustomers(pageIndex, this.page.pageSize, this.page.filter)
     }
   }
 }

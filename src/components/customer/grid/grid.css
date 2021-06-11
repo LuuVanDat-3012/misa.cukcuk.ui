@@ -2,22 +2,27 @@
   CSS bảng khách hàng
   */
 
-.grid {
-  width: 100%;
-  position: relative;
-  height: 680px;
-  overflow-y: auto;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
+
+/* .grid {
+    width: 100%;
+    position: relative;
+    height: 680px;
+    overflow-y: auto;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
 }
+
 .grid::-webkit-scrollbar {
-  background-color: #d2d2d2;
-  width: 6px;
+    background-color: #d2d2d2;
+    width: 6px;
 }
+
 .grid::-webkit-scrollbar-thumb {
-  border-top-right-radius: 6px;
-}
+    border-top-right-radius: 6px;
+} */
+
+
 /* .grid-title{
   width: 100%;
   height: 40px;
@@ -50,68 +55,298 @@
   height: 35px;
   
 } */
- table {
-  width: 100%;
-  border-spacing: 0;
-  height: 36.875rem;
-  box-sizing: border-box;
+
+
+/* table {
+    width: 100%;
+    border-spacing: 0;
+    height: 36.875rem;
+    box-sizing: border-box;
 }
+
 .contentRow {
-  text-align: center;
-  max-height: 40px;
-  height: 40px;
-  box-sizing: border-box;
+    text-align: center;
+    max-height: 40px;
+    height: 40px;
+    box-sizing: border-box;
 }
 
 tr:hover td {
-  background-color: rgb(243, 235, 235);
+    background-color: rgb(243, 235, 235);
 }
+
 th,
 td {
-  border-bottom: 1px solid #ddd;
-}
-.checkboxRow {
-  padding-top: 7px;
-  width: 18px;
-  height: 18px;
-}
-.titleRow{
-  position: sticky;
-  background-color: #ffffff;
-  top: 0;
-  left: 0;
-  max-height: 40px;
-}
-td{
-  overflow: hidden;
+    border-bottom: 1px solid #ddd;
 }
 
+.checkboxRow {
+    padding-top: 7px;
+    width: 18px;
+    height: 18px;
+}
+
+.titleRow {
+    position: sticky;
+    background-color: #ffffff;
+    top: 0;
+    left: 0;
+    max-height: 40px;
+}
+
+td {
+    overflow: hidden;
+} */
 
 .loaded {
-  animation: fadein 2s;
-  -moz-animation: fadein 2s; 
-  -webkit-animation: fadein 2s; 
-  -o-animation: fadein 2s; 
+    animation: fadein 2s;
+    -moz-animation: fadein 2s;
+    -webkit-animation: fadein 2s;
+    -o-animation: fadein 2s;
 }
-.loading{
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
-  background-color: #ffffff;
-  z-index: 5555;
+
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    z-index: 5555;
 }
-.loading-icon{
-  width: 100px;
-  height: 40px;
-  position: absolute;
-  top:calc(50% - 20px);
-  left: calc(50% - 50px);
-} 
-.test{
-  max-height: 40px;
-  height: 40px;
+
+.loading-icon {
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    top: calc(50% - 20px);
+    left: calc(50% - 50px);
+}
+
+.test {
+    max-height: 40px;
+    height: 40px;
+}
+
+.grid-view {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    text-transform: none;
+    text-decoration: none;
+    -webkit-text-decoration-line: none;
+    text-decoration-line: none;
+    text-decoration-thickness: initial;
+    -webkit-text-decoration-style: initial;
+    text-decoration-style: solid;
+    -webkit-text-decoration-color: initial;
+    text-decoration-color: initial;
+    font-family: MISA-Regular;
+    font-size: inherit;
+}
+
+.grid-model-control {
+    min-width: 100%;
+}
+
+.grid-viewer {
+    overflow: unset;
+    max-height: none;
+    min-width: calc(100% + 30px);
+}
+
+.ms-table-viewer {
+    border-spacing: 0;
+    min-width: 100%;
+}
+
+.ms-thead-viewer {}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+.table-scrol {
+    overflow-y: auto;
+    height: 700px;
+    overflow-x: auto;
+}
+
+th,
+tr {
+    padding: 0px 10px;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+th {
+    display: table-cell;
+    vertical-align: inherit;
+    font-weight: bold;
+    text-align: -internal-center;
+}
+
+.ms-th-out-left-16 {
+    min-width: 16px;
+    max-width: 16px;
+    width: 16px;
+    background: #fff;
+    position: sticky;
+    left: 0;
+    border: 0;
+    z-index: 25;
+    padding: 0;
+    top: -102px;
+}
+
+.ms-tr-viewer .ms-out-left-white-16 {
+    min-width: 16px;
+    max-width: 16px;
+    width: 16px;
+    background: #fff;
+    position: sticky;
+    left: 0;
+    border: 0;
+    z-index: 3;
+}
+
+
+/** CSS check box chọn tất cả */
+
+.ms-grid-viewer .ms-table-viewer .ms-thead-viewer .ms-tr-viewer .ms-muli-checkall {
+    z-index: 3;
+    position: sticky;
+    left: 0;
+    top: 0;
+    min-width: 40px;
+    width: 40px;
+    max-width: 40px;
+}
+
+.ms-muli-checkall {
+    position: absolute;
+    left: 16px;
+    top: 12px;
+}
+
+.dis-contents {
+    display: contents;
+}
+
+.ms-grid-viewer .ms-table-viewer .ms-tbody-viewer .ms-tr-viewer,
+.ms-grid-viewer .ms-table-viewer .ms-tbody-viewer {
+    background-color: #fff;
+}
+
+.dynamic-col {
+    position: absolute;
+    min-width: 150px;
+    width: 150px;
+    top: 10px;
+}
+
+.ms-grid-viewer .ms-table-viewer .ms-thead-viewer .ms-tr-viewer .dymamic-col {
+    left: unset!important;
+}
+
+.ms-grid-viewer .ms-table-viewer .ms-thead-viewer .ms-tr-viewer .ms-th-viewer {
+    border-right: 1px solid #c7c7c7;
+    border-bottom: 1px solid #c7c7c7;
+    min-height: 34px;
+    height: 34px;
+    position: sticky;
+    z-index: 77;
+    top: 0;
+    background-color: #eceef1;
+    vertical-align: middle;
+}
+
+.ms-grid-viewer .ms-table-viewer .ms-thead-viewer .ms-tr-viewer .ms-th-viewer .ms-head-title {
+    font-size: 12px;
+    text-transform: uppercase!important;
+    align-items: center;
+    cursor: pointer;
+    padding-right: 12px;
+}
+
+.flex {
+    display: flex;
+}
+
+
+/** CSS  các dòng nộ dung */
+
+.ms-tr-viewer .ms-td-multi {
+    z-index: 2;
+    position: sticky;
+    left: 0;
+    background-color: #fff;
+}
+
+.ms-input-checkall {
+    height: 16px;
+    width: 16px;
+}
+
+.ms-td-multi {
+    left: 16px;
+}
+
+.ms-tr-viewer .ms-td-viewer {
+    height: 40px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #c7c7c7;
+    border-right: 1px dotted #c7c7c7;
+    white-space: pre-wrap;
+}
+
+.con-ms-checkbox {
+    justify-content: flex-start;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.ms-checkbox--input {
+    position: absolute;
+    width: 30px;
+    height: 16px;
+    z-index: 200;
+    cursor: pointer;
+    left: 4px;
+}
+
+.row-selected .ms-td-viewer {
+    background: #f8f8f8!important;
+}
+
+.ms-tr-viewer .ms-td-viewer[data-v-5df3e95b] {
+    height: 40px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #c7c7c7;
+    border-right: 1px dotted #c7c7c7;
+    white-space: pre-wrap;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.ms-tr-viewer:hover .ms-td-viewer {
+    background: #f3f8f8!important;
+}
+
+.ms-td-multi {
+    align-items: center;
+    justify-content: center;
 }

@@ -1,18 +1,18 @@
 <template>
   <div class="MISAnavigate">
-    <div class="total-employee">Hiển thị nhân viên trên một trang</div>
+    <div class="total-employee">Hiển thị nhân viên trên một trang:</div>
     <div class="list-page-number">
       <div class="page">
         <div class="btn-firstpage navigate-page"></div>
         <div class="btn-prev-page navigate-page"></div>
-        <div class="page-number" v-for="index in 4" :key="index"  :class="{isSelected: Selected(index)}">
-          {{ index }}
+        <div  v-for="index in 4" :key="index"  @click="GetCustomerPaging(index)">
+          <div class="page-number">{{index}}</div>
         </div>
         <div class="btn-next-page navigate-page"></div>
         <div class="btn-lastpage navigate-page"></div>
       </div>
     </div>
-    <div class="employees-in-page">Tổng: {{quality}}</div>
+    <div class="employees-in-page">Tổng: {{totalPage}}</div>
   </div>
 </template>
 <script>
@@ -20,26 +20,26 @@ export default {
   name: 'MISANavigate',
   data () {
     return {
-      totalPage: 1, // Tong so trang
-      currentPage: 0, // Trang hiện tại
-      quality: 0, // Tổng số khách hàng,
-      maxPage: 1,
-      startPage: 1,
-      endPage: 1
+      currentPage: 1
     }
   },
   methods: {
 
     Selected (val) {
       if (val - 1 === this.page) { return true }
+    },
+    GetCustomerPaging (pageIndex) {
+      this.$emit('GetCustomerPaging', pageIndex)
     }
   },
-  computed: {
-    from () {
-      if (this.totalPage === 1) {
-        return this.maxPage
-      }
-      return 1
+  props: {
+    totalPage: {
+      typeof: Number,
+      default: 1
+    },
+    pageIndex: {
+      typeof: Number,
+      default: 1
     }
   }
 

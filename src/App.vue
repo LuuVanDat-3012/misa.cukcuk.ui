@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <left-side-bar />
-    <Header />
-    <Content />
+    <left-side-bar @Zoom='Zoom'/>
+    <Header  ref="header"/>
+    <Content ref="content"/>
   </div>
 </template>
 <script>
@@ -14,6 +14,12 @@ export default {
     LeftSideBar,
     Header,
     Content
+  },
+  methods: {
+    Zoom (isZoom) {
+      this.$refs.content.isEnlarge = isZoom
+      this.$refs.header.isEnlarge = isZoom
+    }
   }
 }
 </script>
